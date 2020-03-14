@@ -7,12 +7,10 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta property="og:type" content="website">
-<meta property="og:title" content="search">
-<meta property="og:url" content="http://yoursite.com/search/index.html">
+<meta property="og:title" content="Make time for what you love.">
+<meta property="og:url" content="http://yoursite.com/tags/https/index.html">
 <meta property="og:site_name" content="Make time for what you love.">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-14T09:10:49.098Z">
-<meta property="article:modified_time" content="2020-03-14T09:10:49.098Z">
 <meta property="article:author" content="Fallrainy">
 <meta name="twitter:card" content="summary">
     
@@ -34,7 +32,7 @@
         
     
     <!-- title -->
-    <title>search</title>
+    <title>Tag: https</title>
     <!-- styles -->
     
 <link rel="stylesheet" href="/css/style.css">
@@ -86,22 +84,42 @@
 </header>
 
         
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div id="archive">
+  <ul class="post-list">
+    
+    
+    
+    
+      
+      
+      
+      
+        <h2>2020</h2>
+      
+      <li class="post-item">
+        
+    <div class="meta">
+      
+        
+          <time datetime="2020-03-13T06:49:47.480Z" itemprop="datePublished">2020-03-13</time>
+        
+      
+    </div>
+
+
+        <span>
+    
+        <a class="" href="/2020/03/13/%E4%BD%BF%E7%94%A8%20acme.sh%20%E5%9C%A8%E5%8D%95%E5%8F%B0%20Linux%20_%20Windows%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%88%96%E8%80%85%E9%9B%86%E7%BE%A4%E4%B8%8A%E8%87%AA%E5%8A%A8%E5%8C%96%E7%94%B3%E8%AF%B7%E5%92%8C%E6%9B%B4%E6%96%B0%20https%20%E8%AF%81%E4%B9%A6%20_%20CCIE%20%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A4%BE%E5%8C%BA%20(2020-03-13%20%E4%B8%8B%E5%8D%882_49_43)/">使用 acme.sh 在单台 Linux / Windows 服务器或者集群上自动化申请和更新 https 证书</a>
+    
+
+
+</span>
+      </li>
+    
+  </ul>
   
 
-  <div class="content" itemprop="articleBody">
-      
-        <section id="search">
-  <form>
-    <input type="text" class="search-input" id="search-input" placeholder="搜索...">
-  </form>
-  <div id="search-result"></div>
-  <p class="search-no-result">抱歉，没有符合您搜索条件的结果。请换其它关键词再试。</p>
-</section>
-
-      
-  </div>
-</article>
+</div>
 
         
         <footer id="footer">
@@ -147,43 +165,6 @@
 <script src="/js/main.js"></script>
 
 <!-- search -->
-
-  
-<script src="/js/search.js"></script>
-
-  <script type="text/javascript">
-  $(function() {
-
-    var $inputArea = $("input#search-input");
-    var $resultArea = document.querySelector("div#search-result");
-
-    $inputArea.focus(function() {
-      var search_path = "search.xml";
-      if (search_path.length == 0) {
-        search_path = "search.xml";
-      }
-      var path = "/" + search_path;
-      searchFunc(path, 'search-input', 'search-result');
-    });
-
-    $inputArea.keydown(function(e) {
-      if (e.which == 13) {
-        e.preventDefault();
-      }
-    });
-
-    var observer = new MutationObserver(function(mutationsList, observer) {
-      if (mutationsList[0].addedNodes) {
-        $(".search-no-result").show(200);
-      } else {
-        $(".search-no-result").hide();
-      }
-    });
-
-    observer.observe($resultArea, { childList: true });
-
-  });
-  </script>
 
 <!-- Google Analytics -->
 
