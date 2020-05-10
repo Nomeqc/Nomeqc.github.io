@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.kanshouce.com&#x2F;2017&#x2F;08&#x2F;05&#x2F;openssl-upgrade&#x2F;  CentOS 7 默认带的 openssl 是 1.0.1 版本，开启 HTTP2 则必须升级 1.1 左右的版本。 本文仅适用 CentOS7 以下为升级全过程 查看当前 openssl 版本 1$ openssl version  查">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7 升级 Openssl 并支持 HTTP2 · 手册">
+<meta property="og:url" content="http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/index.html">
+<meta property="og:site_name" content="Make time for what you love.">
+<meta property="og:description" content="本文由 简悦 SimpRead 转码， 原文地址 https:&#x2F;&#x2F;www.kanshouce.com&#x2F;2017&#x2F;08&#x2F;05&#x2F;openssl-upgrade&#x2F;  CentOS 7 默认带的 openssl 是 1.0.1 版本，开启 HTTP2 则必须升级 1.1 左右的版本。 本文仅适用 CentOS7 以下为升级全过程 查看当前 openssl 版本 1$ openssl version  查">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.kanshouce.com/blog/2017-08-06-2017-08-06%205.18.06.png">
+<meta property="article:published_time" content="2020-05-10T23:02:00.000Z">
+<meta property="article:modified_time" content="2020-05-10T23:04:55.316Z">
+<meta property="article:author" content="Fallrainy">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.kanshouce.com/blog/2017-08-06-2017-08-06%205.18.06.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>CentOS7 升级 Openssl 并支持 HTTP2 · 手册</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/03/13/%E4%BD%BF%E7%94%A8%20acme.sh%20%E5%9C%A8%E5%8D%95%E5%8F%B0%20Linux%20_%20Windows%20%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%88%96%E8%80%85%E9%9B%86%E7%BE%A4%E4%B8%8A%E8%87%AA%E5%8A%A8%E5%8C%96%E7%94%B3%E8%AF%B7%E5%92%8C%E6%9B%B4%E6%96%B0%20https%20%E8%AF%81%E4%B9%A6%20_%20CCIE%20%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%A4%BE%E5%8C%BA%20(2020-03-13%20%E4%B8%8B%E5%8D%882_49_43)/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&text=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&is_video=false&description=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS7 升级 Openssl 并支持 HTTP2 · 手册&body=Check out this article: http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&name=CentOS7 升级 Openssl 并支持 HTTP2 · 手册&description=&lt;blockquote&gt;
+&lt;p&gt;本文由 &lt;a href=&#34;http://ksria.com/simpread/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;简悦 SimpRead&lt;/a&gt; 转码， 原文地址 &lt;a href=&#34;https://www.kanshouce.com/2017/08/05/openssl-upgrade/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://www.kanshouce.com/2017/08/05/openssl-upgrade/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;CentOS 7 默认带的 openssl 是 1.0.1 版本，开启 HTTP2 则必须升级 1.1 左右的版本。&lt;/p&gt;
+&lt;p&gt;本文仅适用 CentOS7&lt;/p&gt;
+&lt;p&gt;以下为升级全过程&lt;/p&gt;
+&lt;p&gt;查看当前 openssl 版本&lt;/p&gt;
+&lt;figure class=&#34;highlight plain&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;$ openssl version&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;查看输出版本&lt;/p&gt;
+&lt;p&gt;前往 Openssl 官方&lt;a href=&#34;https://www.openssl.org/source/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;（戳我）&lt;/a&gt;查看最新的 openssl 版本，make 本文的时候最新版本为 1.1.0f&lt;/p&gt;
+&lt;p&gt;下载并解压&lt;/p&gt;
+&lt;figure class=&#34;highlight plain&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;$ cd &amp;#x2F;home&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ wget https:&amp;#x2F;&amp;#x2F;www.openssl.org&amp;#x2F;source&amp;#x2F;openssl-1.1.0f.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ tar -zxvf openssl-1.1.0f.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ cd openssl-1.1.0f&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#升级"><span class="toc-number">1.</span> <span class="toc-text">升级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置部分"><span class="toc-number">2.</span> <span class="toc-text">配置部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐的配置"><span class="toc-number">2.1.</span> <span class="toc-text">推荐的配置</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        CentOS7 升级 Openssl 并支持 HTTP2 · 手册
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Fallrainy</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-10T23:02:00.000Z" itemprop="datePublished">2020-05-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+      
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>本文由 <a href="http://ksria.com/simpread/" target="_blank" rel="noopener">简悦 SimpRead</a> 转码， 原文地址 <a href="https://www.kanshouce.com/2017/08/05/openssl-upgrade/" target="_blank" rel="noopener">https://www.kanshouce.com/2017/08/05/openssl-upgrade/</a></p>
+</blockquote>
+<p>CentOS 7 默认带的 openssl 是 1.0.1 版本，开启 HTTP2 则必须升级 1.1 左右的版本。</p>
+<p>本文仅适用 CentOS7</p>
+<p>以下为升级全过程</p>
+<p>查看当前 openssl 版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ openssl version</span><br></pre></td></tr></table></figure>
+
+<p>查看输出版本</p>
+<p>前往 Openssl 官方<a href="https://www.openssl.org/source/" target="_blank" rel="noopener">（戳我）</a>查看最新的 openssl 版本，make 本文的时候最新版本为 1.1.0f</p>
+<p>下载并解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cd &#x2F;home</span><br><span class="line"></span><br><span class="line">$ wget https:&#x2F;&#x2F;www.openssl.org&#x2F;source&#x2F;openssl-1.1.0f.tar.gz</span><br><span class="line"></span><br><span class="line">$ tar -zxvf openssl-1.1.0f.tar.gz</span><br><span class="line"></span><br><span class="line">$ cd openssl-1.1.0f</span><br></pre></td></tr></table></figure>
+
+<p>动态编译 Openssl，并安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;config zlib-dynamic</span><br><span class="line"></span><br><span class="line">$ make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意，如果编译的时候增加了 <code>zlib-dynamic</code> 这个参数代表了动态编译，编译完成后，只需要执行下文中<code>#添加libssl.so.1.1</code>等两个步骤，因为 openssl 的执行目录和文件都已经就绪。</p>
+<p>如果用默认的安装，那么此刻 openssl 默认被安装到了<code>/usr/local/</code>目录。</p>
+<p>查看目前运行的 Openssl 目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ which openssl</span><br></pre></td></tr></table></figure>
+
+<p>开始升级（如果动态编译，可以从<code>#添加libssl.so.1.1</code>开始）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#把旧版本的openssl备份一下，下面的目录即是上面用which查出来的目录，每个人的服务器配置不一样，请依照情况执行。</span><br><span class="line"></span><br><span class="line">$ mv &#x2F;usr&#x2F;bin&#x2F;openssl &#x2F;usr&#x2F;bin&#x2F;openssl.bak</span><br><span class="line"></span><br><span class="line">$ mv &#x2F;usr&#x2F;include&#x2F;openssl &#x2F;usr&#x2F;include&#x2F;openssl.bak</span><br><span class="line"></span><br><span class="line">#拷贝刚编译好的新版本的openssl-1.1.0f</span><br><span class="line"></span><br><span class="line">$ cp &#x2F;usr&#x2F;local&#x2F;bin&#x2F;openssl &#x2F;usr&#x2F;bin&#x2F;openssl</span><br><span class="line"></span><br><span class="line">$ cp -r &#x2F;usr&#x2F;local&#x2F;ssl &#x2F;usr&#x2F;include&#x2F;openssl</span><br><span class="line"></span><br><span class="line">#注意，1.1.0f版本 生成的文件的位置在&#x2F;usr&#x2F;local&#x2F;ssl</span><br><span class="line"></span><br><span class="line">#这里没有用ln软链的原因是因为如果使用ln可能在后续安装中造成其他软件的安装错误,比较常见的就是报[install_dev]错误</span><br><span class="line"></span><br><span class="line">#添加libssl.so.1.1</span><br><span class="line"></span><br><span class="line">$ cp &#x2F;usr&#x2F;local&#x2F;lib64&#x2F;libssl.so.1.1 &#x2F;usr&#x2F;lib64&#x2F;libssl.so.1.1</span><br><span class="line"></span><br><span class="line">$ cp &#x2F;usr&#x2F;local&#x2F;lib64&#x2F;libcrypto.so.1.1 &#x2F;usr&#x2F;lib64&#x2F;libcrypto.so.1.1</span><br><span class="line"></span><br><span class="line">#查看openssl版本</span><br><span class="line"></span><br><span class="line">$ openssl version</span><br><span class="line"></span><br><span class="line">#重新加载动态链接库，这步比较重要，特别是下一步要升级nginx</span><br><span class="line"></span><br><span class="line">$ ldconfig -v</span><br></pre></td></tr></table></figure>
+
+<p>至此，openssl 已经成功升级。</p>
+<h2 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h2><p>Nginx 的升级相对比较简单</p>
+<p>升级前最好<code>检查</code>下是否具备编译 Nginx 的条件，特别是以前很多采用<code>YUM</code>安装的懒癌晚期，可能没安装编译环境：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum install gcc-c ++ pcre-devel zlib-devel make wget openssl-devel libxml2-devel libxslt-devel gd-devel perl-ExtUtils-Embed GeoIP-devel gperftools-devel</span><br></pre></td></tr></table></figure>
+
+<p>以上基本把所需的依赖都装好了，如果在下面的编译环境中提示<code>Peal</code>的相关错误，可以考虑安装<code>cpan</code>，用 cpan 按照提示安装缺少的 peal 库。</p>
+<p>开始升级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#看一下nginx版本与配置</span><br><span class="line"></span><br><span class="line">[root@sf3 ~]# nginx -V</span><br><span class="line"></span><br><span class="line">nginx version: nginx&#x2F;1.10.0   &#x2F;&#x2F;这里输出的是当前版本</span><br><span class="line"></span><br><span class="line">built by gcc 4.4.7 20120313 (Red Hat 4.4.7-17) (GCC) &#x2F;&#x2F;编译用的Gcc版本</span><br><span class="line"></span><br><span class="line">built with OpenSSL 1.0.1e-fips 11 Feb 2013  &#x2F;&#x2F;使用的openssl版本，我们本次升级主要针对的地方</span><br><span class="line"></span><br><span class="line">TLS SNI support enabled  &#x2F;&#x2F;TLS支持是否打开</span><br><span class="line"></span><br><span class="line">configure arguments: [内容略去]  &#x2F;&#x2F;编译参数</span><br></pre></td></tr></table></figure>
+
+<p>最新稳定版本是 1.10.2</p>
+<p>官网地址：<a href="http://nginx.org/" target="_blank" rel="noopener">http://nginx.org</a></p>
+<p>升级步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#下载nginx最新版</span><br><span class="line"></span><br><span class="line">$ cd &#x2F;home</span><br><span class="line"></span><br><span class="line">$wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.10.2.tar.gz</span><br><span class="line"></span><br><span class="line">#解压源码</span><br><span class="line"></span><br><span class="line">$ tar zxvf nginx-1.10.2.tar.gz</span><br><span class="line"></span><br><span class="line">#进入源码目录</span><br><span class="line"></span><br><span class="line">$ cd nginx-1.10.2</span><br><span class="line"></span><br><span class="line">#加上所需参数开始编译</span><br><span class="line"></span><br><span class="line">$ .&#x2F;configure [这里copy上文提到的内容略去部分，或者根据你自己的情况进行配置] --with-openssl&#x3D;&#x2F;home&#x2F;openssl-1.1.0f #请注意，这条最重要，对应openssl源码解压后的路径</span><br><span class="line"></span><br><span class="line">#执行make编译，但是不要执行make install</span><br><span class="line"></span><br><span class="line">$ make</span><br><span class="line"></span><br><span class="line">#重命名nginx旧版本二进制文件，即sbin目录下的nginx（期间nginx并不会停止服务）</span><br><span class="line"></span><br><span class="line">#每个人服务器的安装不太一样，执行前记得用which nginx看一下nginx所在目录</span><br><span class="line"></span><br><span class="line">$ mv &#x2F;usr&#x2F;sbin&#x2F;nginx &#x2F;usr&#x2F;sbin&#x2F;nginx.old</span><br><span class="line"></span><br><span class="line">#然后拷贝一份新编译的二进制文件</span><br><span class="line"></span><br><span class="line">$ cp objs&#x2F;nginx &#x2F;usr&#x2F;sbin&#x2F;sbin&#x2F;</span><br><span class="line"></span><br><span class="line">#在源码目录执行make upgrade开始升级</span><br><span class="line"></span><br><span class="line">$ make upgrade</span><br><span class="line"></span><br><span class="line">#完成后查看下版本</span><br><span class="line"></span><br><span class="line">$ nginx -V</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到错误，请参考本博客<a href="https://www.kanshouce.com/2017/08/01/nginx-php7/" target="_blank" rel="noopener">上篇文章</a>，用 YUM 升级安装 nginx 到最新版本 nginx，再进行编译。</p>
+<h2 id="配置部分"><a href="#配置部分" class="headerlink" title="配置部分"></a>配置部分</h2><p>在 nginx 的<code>conf</code>文件里，对对应的站点进行配置，非常简单，只需要增加<code>ssl http2;</code>即可，比如说：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen 443 ssl http2 default_server;</span><br></pre></td></tr></table></figure>
+
+<p>要验证 http2 是否生效可以安装个 chrome 插件<code>HTTP/2 and SPDY indicator</code>，如果开启了 h2，那么会有一道蓝色的闪电，比如说，就像本站已经开启了：<br><img src="https://pic.kanshouce.com/blog/2017-08-06-2017-08-06%205.18.06.png" alt=""></p>
+<h3 id="推荐的配置"><a href="#推荐的配置" class="headerlink" title="推荐的配置"></a>推荐的配置</h3><p>这里有个网站推荐给大家，可以生成被优化推荐的 Nginx 配置文件</p>
+<p><a href="https://mozilla.github.io/server-side-tls/ssl-config-generator/" target="_blank" rel="noopener">戳我抵达</a></p>
+<p>除了上面提到的 Chrome 插件以外，如果服务器的 openssl 版本过低，可能导致 chrom 浏览器访问失败，原因是因为在去年 google chrom51 版本中 google 移除了 NPN，只支持 ALPN，所以导致协商失败。</p>
+<p>用这条命令可以测试目前 HTTP2 服务是否支持 ALPN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">openssl s_client -alpn h2 -servername imququ.com -connect kanshouce.com:443 &lt; &#x2F;dev&#x2F;null | grep &#39;ALPN&#39;</span><br></pre></td></tr></table></figure>
+
+<p>如果提示 <code>unknown option -alpn</code>，说明本地的 OpenSSL 版本太低（可通过 <code>openssl version</code> 查看），请升级到 1.0.2+。如果不方便升级，也可以使用 <a href="https://www.ssllabs.com/ssltest/index.html" target="_blank" rel="noopener">Qualys SSL Labs’s SSL Server Test</a> 这个在线工具来测试。</p>
+<p>如果结果包含 <code>ALPN protocol: h2</code>，说明服务端支持 ALPN，不受 Chrome 51+ 去掉 NPN 的影响。</p>
+<p>如果结果包含 <code>No ALPN negotiated</code>，说明服务端不支持 ALPN，在 Chrome 51+ 中无法协商到 HTTP/2，需要尽快升级。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#升级"><span class="toc-number">1.</span> <span class="toc-text">升级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置部分"><span class="toc-number">2.</span> <span class="toc-text">配置部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#推荐的配置"><span class="toc-number">2.1.</span> <span class="toc-text">推荐的配置</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&text=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&is_video=false&description=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=CentOS7 升级 Openssl 并支持 HTTP2 · 手册&body=Check out this article: http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&title=CentOS7 升级 Openssl 并支持 HTTP2 · 手册" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/&name=CentOS7 升级 Openssl 并支持 HTTP2 · 手册&description=&lt;blockquote&gt;
+&lt;p&gt;本文由 &lt;a href=&#34;http://ksria.com/simpread/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;简悦 SimpRead&lt;/a&gt; 转码， 原文地址 &lt;a href=&#34;https://www.kanshouce.com/2017/08/05/openssl-upgrade/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://www.kanshouce.com/2017/08/05/openssl-upgrade/&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;CentOS 7 默认带的 openssl 是 1.0.1 版本，开启 HTTP2 则必须升级 1.1 左右的版本。&lt;/p&gt;
+&lt;p&gt;本文仅适用 CentOS7&lt;/p&gt;
+&lt;p&gt;以下为升级全过程&lt;/p&gt;
+&lt;p&gt;查看当前 openssl 版本&lt;/p&gt;
+&lt;figure class=&#34;highlight plain&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;$ openssl version&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;查看输出版本&lt;/p&gt;
+&lt;p&gt;前往 Openssl 官方&lt;a href=&#34;https://www.openssl.org/source/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;（戳我）&lt;/a&gt;查看最新的 openssl 版本，make 本文的时候最新版本为 1.1.0f&lt;/p&gt;
+&lt;p&gt;下载并解压&lt;/p&gt;
+&lt;figure class=&#34;highlight plain&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;$ cd &amp;#x2F;home&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ wget https:&amp;#x2F;&amp;#x2F;www.openssl.org&amp;#x2F;source&amp;#x2F;openssl-1.1.0f.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ tar -zxvf openssl-1.1.0f.tar.gz&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;$ cd openssl-1.1.0f&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Fallrainy
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/search/">搜索</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- valine Comments -->
+
+
+</body>
+</html>
