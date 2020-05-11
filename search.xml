@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>「Hexo Admin」Deploy报错</title>
+      <link href="/2020/05/11/%E3%80%8CHexo%20Admin%E3%80%8DDeploy%E6%8A%A5%E9%94%99/"/>
+      <url>/2020/05/11/%E3%80%8CHexo%20Admin%E3%80%8DDeploy%E6%8A%A5%E9%94%99/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Hexo-Admin-Deploy报错："><a href="#Hexo-Admin-Deploy报错：" class="headerlink" title="Hexo Admin Deploy报错："></a><code>Hexo Admin</code> Deploy报错：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Run</span><br><span class="line"></span><br><span class="line">  git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">  git config --global user.name &quot;Your Name&quot;</span><br><span class="line"></span><br><span class="line">to set your account&#39;s default identity.</span><br><span class="line">Omit --global to set the identity only in this repository.</span><br></pre></td></tr></table></figure><h2 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h2><p>进入到<code>blog/.deploy_git</code>目录：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config user.email <span class="string">"you@example.com"</span></span><br><span class="line">git config user.name <span class="string">"Your Name"</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CentOS7 升级 Openssl 并支持 HTTP2 · 手册</title>
       <link href="/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/"/>
       <url>/2020/05/11/CentOS7-%E5%8D%87%E7%BA%A7-Openssl-%E5%B9%B6%E6%94%AF%E6%8C%81-HTTP2-%C2%B7-%E6%89%8B%E5%86%8C/</url>
