@@ -4,9 +4,9 @@
   
     
     <entry>
-      <title>github使用技巧</title>
-      <link href="/2020/05/16/github%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
-      <url>/2020/05/16/github%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
+      <title>GitHub使用技巧</title>
+      <link href="/2020/05/16/GitHub%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+      <url>/2020/05/16/GitHub%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
       
         <content type="html"><![CDATA[<h2 id="1-利用jsDelivrCDN提高GitHub仓库静态资源访问速度"><a href="#1-利用jsDelivrCDN提高GitHub仓库静态资源访问速度" class="headerlink" title="1.利用jsDelivrCDN提高GitHub仓库静态资源访问速度"></a>1.利用<code>jsDelivr</code>CDN提高<code>GitHub</code>仓库静态资源访问速度</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用方法</span></span><br><span class="line">https://cdn.jsdelivr.net/gh/user/repo@version/file</span><br><span class="line">https://cdn.jsdelivr.net/gh/user/repo/file</span><br></pre></td></tr></table></figure><p>例如一张图片，在<code>github</code>的地址是<a href="https://github.com/Nomeqc/static/blob/master/images/wallpaper/v2-6f197c9ade14af2213ece8baaed30435_r.jpg" target="_blank" rel="noopener">https://github.com/Nomeqc/static/blob/master/images/wallpaper/v2-6f197c9ade14af2213ece8baaed30435_r.jpg</a><br>现在，可以使用<code>jsdelivr</code>的CDN服务<a href="https://cdn.jsdelivr.net/gh/Nomeqc/static/images/wallpaper/v2-6f197c9ade14af2213ece8baaed30435_r.jpg" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/Nomeqc/static/images/wallpaper/v2-6f197c9ade14af2213ece8baaed30435_r.jpg</a>来访问</p><h2 id="2-解决克隆仓库速度太慢"><a href="#2-解决克隆仓库速度太慢" class="headerlink" title="2. 解决克隆仓库速度太慢"></a>2. 解决克隆仓库速度太慢</h2><p>可以通过<a href="https://gitee.com/" target="_blank" rel="noopener">gitee</a>的仓库导入功能导入远程仓库。</p>]]></content>
       
