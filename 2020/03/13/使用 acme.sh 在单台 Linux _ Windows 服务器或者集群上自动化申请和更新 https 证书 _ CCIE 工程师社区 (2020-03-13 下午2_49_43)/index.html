@@ -14,7 +14,7 @@
 <meta property="og:description" content="&gt; 本文由 [简悦 SimpRead](http:&#x2F;&#x2F;ksria.com&#x2F;simpread&#x2F;) 转码， 原文地址 [ccie.lol](https:&#x2F;&#x2F;ccie.lol&#x2F;knowledge-base&#x2F;linux-centos-use-acme-sh&#x2F;)  acme.sh 是一个自动化申请和更新 https 证书的脚本，非常地好用；但在使用过程中也发现了一些不足，Ricky 在此提供一个解决方案。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-03-13T06:49:00.000Z">
-<meta property="article:modified_time" content="2020-07-31T12:18:27.821Z">
+<meta property="article:modified_time" content="2020-08-03T10:44:59.050Z">
 <meta property="article:author" content="Fallrainy">
 <meta property="article:tag" content="https">
 <meta name="twitter:card" content="summary">
@@ -480,11 +480,11 @@ Python 脚本代码如下所示（脚本文件名为：update_cert.pyw ）：
 1.  update_cert.list 是配置文件，里面存放的是要更新证书的域名的名称（一个域名一行，如：www.mydomain.com ）；这里用的是相对路径，所以该文件和 Python 脚本处在同一个目录下。
 2.  update_cert.log 是日志文件；这里用的是相对路径，所以该文件和 Python 脚本处在同一个目录下。
 3.  cert 是存放证书的目录，这里用的是相对路径，所以该目录和 Python 脚本处在同一个目录下。
-4.  C:\xampp\apache\bin\httpd -k restart 是重新加载 Apache 的命令，这个命令只是重新加载配置文件，不重启进程，具体如下图所示： [![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-12.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-12.png)-k restart : tell running Apache to do a graceful restart
+4.  C:\xampp\apache\bin\httpd -k restart 是重新加载 Apache 的命令，这个命令只是重新加载配置文件，不重启进程，具体如下图所示： [![](https://static.dingtalk.com/media/lAjPDeRESDyNiU7OP1PjT85A8N1C.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-12.png)-k restart : tell running Apache to do a graceful restart
 
 Python 脚本代码结构如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-9.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-9.png)Python 脚本代码结构
+[![](https://static.dingtalk.com/media/lAjPDetfRYYaQx3OBn4W6c4CIWYw.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-9.png)Python 脚本代码结构
 
 ##### **6 、将脚本添加到任务计划：**
 
@@ -498,27 +498,27 @@ Python 脚本代码结构如下图所示：
 
 以 Windows Server 2012 R2 Datacenter 操作系统为例，先按 Windows 微标键 + R ，在弹出的窗口中输入 “taskschd.msc” ，然后点击 “ 确定 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-1-320x194.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-1.png)先按 Windows 微标键 + R ，在弹出的窗口中输入 “taskschd.msc” ，然后点击 “ 确定 ”
+[![](https://static.dingtalk.com/media/lAjPDe7sxCrfFqzOJ6KHLM5-C9IH.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-1.png)先按 Windows 微标键 + R ，在弹出的窗口中输入 “taskschd.msc” ，然后点击 “ 确定 ”
 
 接着会弹出一个名为 “任务计划程序” 的窗口，在窗口右边的侧边栏中点击 “ 创建基本任务 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-2.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-2.png)接着会弹出一个名为 “任务计划程序” 的窗口，在窗口右边的侧边栏中点击 “ 创建基本任务 ”
+[![](https://static.dingtalk.com/media/lAjPDefRxuFSIpvOSlV9085ys85c.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-2.png)接着会弹出一个名为 “任务计划程序” 的窗口，在窗口右边的侧边栏中点击 “ 创建基本任务 ”
 
 接着会弹出一个名为 “创建基本任务向导” 的窗口，在此处填写 “ 名称 ” 和 “ 描述 ” 后点击 “ 下一步 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-3.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-3.png)接着会弹出一个名为 “创建基本任务向导” 的窗口，在此处填写 “ 名称 ” 和 “ 描述 ” 后点击 “ 下一步 ”
+[![](https://static.dingtalk.com/media/lAjPDetfRYYcAu3OLPiCVM48GNz9.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-3.png)接着会弹出一个名为 “创建基本任务向导” 的窗口，在此处填写 “ 名称 ” 和 “ 描述 ” 后点击 “ 下一步 ”
 
 接下来设置的是触发器，选择 “每天” 即可，然后点击 “ 下一步 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-4.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-4.png)接下来设置的是触发器，选择 “每天” 即可，然后点击 “ 下一步 ”
+[![](https://static.dingtalk.com/media/lAjPDeC2yZfJLmXOYcHjO84b6z3V.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-4.png)接下来设置的是触发器，选择 “每天” 即可，然后点击 “ 下一步 ”
 
 接下来设置的是每日具体触发的时间，Ricky 这里设置的是凌晨 5 点 30 分触发，每隔 1 天发生一次，然后点击 “下一步” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-5.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-5.png)接下来设置的是每日具体触发的时间，Ricky 这里设置的是凌晨 5 点 30 分触发，每隔 1 天发生一次，然后点击 “下一步”
+[![](https://static.dingtalk.com/media/lAjPDfJ6Qs-lZDLOPilafM4LSgbS.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-5.png)接下来设置的是每日具体触发的时间，Ricky 这里设置的是凌晨 5 点 30 分触发，每隔 1 天发生一次，然后点击 “下一步”
 
 接下来设置的是操作，选择 “启动程序” 即可，然后点击 “ 下一步 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-6.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-6.png)接下来设置的是操作，选择 “启动程序” 即可，然后点击 “ 下一步 ”
+[![](https://static.dingtalk.com/media/lAjPDgCwPWLAhFLOA7OLG84ZkLl8.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-6.png)接下来设置的是操作，选择 “启动程序” 即可，然后点击 “ 下一步 ”
 
 接下来设置的是具体要启动哪些程序，具体参数设置如下所示，请根据实际需要做相应修改：
 
@@ -528,17 +528,17 @@ Python 脚本代码结构如下图所示：
 
 上述设置完成后请点击 “下一步” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-7.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-7.png)接下来设置的是具体要启动哪些程序，设置完成后请点击 “下一步”
+[![](https://static.dingtalk.com/media/lAjPDfmVQBkz-SzOLaa2Os45KhK7.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-7.png)接下来设置的是具体要启动哪些程序，设置完成后请点击 “下一步”
 
 接下来没有什么是需要设置的，直接点击 “完成” 即可，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-8.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-8.png)接下来没有什么是需要设置的，直接点击 “完成” 即可
+[![](https://static.dingtalk.com/media/lAjPDe7sxCrgmIrOBHPFE84TRz17.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-8.png)接下来没有什么是需要设置的，直接点击 “完成” 即可
 
 最后我们手工执行一次该脚本。其实您在 Python 的 IDLE 编辑器中跑一下脚本就可以了，那如何在 Windows 的 CMD 命令提示符窗口中运行该脚本呢？
 
 以 Windows Server 2012 R2 Datacenter 操作系统为例，先按 Windows 微标键 + R ，在弹出的窗口中输入 “cmd” ，然后点击 “ 确定 ” ，具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-10-320x197.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-10.png)先按 Windows 微标键 + R ，在弹出的窗口中输入 “cmd” ，然后点击 “ 确定 ”
+[![](https://static.dingtalk.com/media/lAjPDfYHwXRwcLHONkiwA85kobjG.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-10.png)先按 Windows 微标键 + R ，在弹出的窗口中输入 “cmd” ，然后点击 “ 确定 ”
 
 接下来在弹出的窗口中输入以下三行命令即可：
 
@@ -546,7 +546,7 @@ Python 脚本代码结构如下图所示：
 
 具体如下图所示：
 
-[![](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-11.png)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-11.png)接下来在弹出的窗口中输入这三行命令即可
+[![](https://static.dingtalk.com/media/lAjPDfYHwXRsm1HOe-lCgM4DJJRr.file)](https://ccie.lol/wp-content/uploads/2020/03/linux-centos-use-acme-sh-11.png)接下来在弹出的窗口中输入这三行命令即可
 
 现在，证书就会同步到 2.2.2.2 和 3.3.3.3 上了！
 
